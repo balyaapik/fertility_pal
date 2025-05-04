@@ -4,7 +4,7 @@ import statsmodels.api as sm
 from datetime import datetime, timedelta
 from io import BytesIO
 
-st.title("Menstrual Cycle & Fertility Predictor")
+st.title("Prediksi Jendela Fertilitas dan Safe Day Palupi F.N")
 
 # Sidebar inputs
 st.sidebar.header("Upload Data & Settings")
