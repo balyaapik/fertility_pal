@@ -4,7 +4,7 @@ import statsmodels.api as sm
 from datetime import datetime, timedelta
 from io import BytesIO
 
-st.title("Prediksi Jendela Fertilitas dan Safe Day Palupi F.N")
+st.title("Prediksi Fertilitas Palupi F.N")
 
 # Sidebar inputs
 st.sidebar.header("Upload Data & Settings")
@@ -14,7 +14,14 @@ predict_n = st.sidebar.number_input("Predict Next Cycles", min_value=1, max_valu
 
 if uploaded_file:
     # Load historical data
-    df_hist = pd.read_csv(uploaded_file, parse_dates=["period_start"]).sort_values("period_start")
+    df_hist = pd.read_csv(uploaded_file).sort_values("period_start")
+    df_hist['period_start'] = pd.to_datetime(df_hist['period_start'], errors='coerce')
+
+    # Display invalid date warnings
+    if df_hist['period_start'].isna().any():
+        st.warning("⚠️ Beberapa tanggal tidak valid dan telah diabaikan. Periksa format tanggal pada file CSV Anda (contoh: 2024-12-01).")
+    df_hist = df_hist.dropna(subset=['period_start'])
+
     st.subheader("Historical Period Start Dates")
     st.dataframe(df_hist)
 
